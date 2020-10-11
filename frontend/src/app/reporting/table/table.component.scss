@@ -1,0 +1,85 @@
+@import '../../../variables';
+
+.table-heading {
+  margin: .9em 0 .7em;
+  padding: 0 $h-padding;
+}
+
+.table-container {
+  overflow-x: auto;
+
+  @media (max-width: $breakpoint-tablet) {
+    overflow-y: auto;
+    max-height: 85vh; // Sticky position of th elements will-not work without a fix height
+  }  
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: #999;
+}
+
+th {
+  background: $default-background-color;
+  vertical-align: top;
+  text-align: left;
+
+  @media (max-width: $breakpoint-tablet) {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+}
+
+th,
+td {
+  padding: $v-padding $h-padding;
+}
+
+th button {
+  color: #bbb;
+  font-size: .75rem;
+  margin-bottom: 1rem;
+  text-align: inherit;
+  max-width: 80%;
+
+  .button-label {
+    position: relative;
+  }
+  
+  &:focus { 
+    outline:0 !important;
+    color: $default-text-color;
+  }
+
+  &:hover { 
+    color: $default-text-color;
+    cursor: pointer; 
+  }
+
+  .caret {
+    bottom: 0;
+    display: inline-block;
+    left: 100%;
+    padding: 0 4px;
+    position: absolute;
+  }    
+}
+
+.separator {
+  height: 2rem;
+}
+
+tfoot {
+  color: $default-text-color;
+
+  tr td:first-child {
+    text-align: right;
+    text-transform: uppercase;
+  }
+}
+
+.right-separator  {
+  border-right: 1px solid #ddd;
+}

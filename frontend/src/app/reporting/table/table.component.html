@@ -1,0 +1,53 @@
+<h1 *ngIf="config.title" class="table-heading">{{ config.title }}</h1>
+
+<div class="table-container">
+  <table *ngIf="config">
+    <thead *ngIf="config.columns">
+      <tr>
+        <th 
+          *ngFor="let columnHead of config.columns" 
+          [ngClass]="{'text-right': columnHead.type === TableColumnType.CURRENCY}">
+          <button 
+            class="btn-undecorated btn-text text-uppercase" 
+            (click)="onColumnHeadClick(columnHead.property)">
+            <span class="button-label">
+              {{ columnHead.title }}
+              <app-caret-down  
+              *ngIf="columnHead.property === config.sortBy" 
+              [ngClass]="{'rotate-180' : config.sortDirection === SortDirection.ASC}" 
+              class="caret"></app-caret-down>
+            </span>
+          </button>      
+        </th>
+      </tr>
+    </thead>
+  
+    <tbody *ngFor="let group of config.rows?.groups" [@listAnimation]="config.rows?.groups">
+      <tr *ngFor="let row of group; trackBy:config.trackRowsBy">
+        <td  
+          app-table-cell  
+          *ngFor="let columnHead of config.columns" 
+          [type]="columnHead.type" 
+          [value]="row[columnHead.property]" 
+          [digitsInfo]="columnHead.digitsInfo" 
+          [class]="columnHead.class"></td>
+      </tr>
+      <tr class="separator">
+        <td ></td>
+      </tr>
+    </tbody>
+  
+    <tfoot *ngIf="config.rows?.foot">
+      <tr *ngFor="let row of config.rows?.foot">
+        <td  
+          app-table-cell  
+          *ngFor="let columnHead of config.columns;  first as isFirst; trackBy:config.trackRowsBy" 
+          [type]="columnHead.type" 
+          [value]="isFirst ? 'Total' : row[columnHead.property]" 
+          [digitsInfo]="columnHead.digitsInfo" 
+          [class]="columnHead.class"></td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+

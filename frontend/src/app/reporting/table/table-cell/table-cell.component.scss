@@ -1,0 +1,18 @@
+.table-cell-string,
+.table-cell-percent {
+  font-weight: 600;
+}
+
+.table-cell-numeric,
+.table-cell-currency  {
+  font-size: 1.6rem;;
+  font-weight: 300;
+}
+
+.table-cell-currency  {
+  text-align: right;
+}
+
+.table-cell-string {
+  font-size: .8em;
+}

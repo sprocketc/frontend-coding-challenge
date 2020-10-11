@@ -1,0 +1,7 @@
+<container-element [ngSwitch]="type">
+  <div *ngSwitchCase="TableColumnType.STRING" class="table-cell-string">{{value}}</div>
+  <div *ngSwitchCase="TableColumnType.PERCENT" class="table-cell-percent">{{value | percent: digitsInfo }}</div>
+  <div *ngSwitchCase="TableColumnType.NUMERIC" class="table-cell-numeric">{{value | number: digitsInfo}}</div>
+  <div *ngSwitchCase="TableColumnType.CURRENCY" class="table-cell-currency">{{value ? (value | currency: 'US': '': digitsInfo) : '-'}}</div>
+  <div *ngSwitchDefault>{{value}}</div>
+</container-element>

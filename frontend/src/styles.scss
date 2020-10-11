@@ -1,6 +1,50 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap');
 @import '~normalize-scss/sass/normalize/import-now';
+@import './variables';
 
 body {
+    color: $default-text-color;
     font-family: 'Open Sans', sans-serif;
+}
+
+h1 {
+    font-size: 2em;
+    font-weight: 300;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 100%;
+    padding: 0 1rem;
+    width: 920px;
+}
+
+.btn-undecorated {
+    background: transparent;
+    border: 0;
+}
+
+.btn-text {
+    padding: 0;
+}
+
+.rotate-180 {
+    transform: rotate(180deg); 
+    transform-origin: center center;
+}
+
+.text-uppercase {
+    text-transform: uppercase !important;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.text-color-default {
+    color: $default-text-color !important;
 }
