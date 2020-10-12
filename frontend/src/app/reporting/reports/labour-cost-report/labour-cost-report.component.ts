@@ -18,8 +18,21 @@ export class LabourCostReportComponent extends BaseReport implements OnInit {
 
   constructor(protected labourStatsService: LabourStatsService) {
       super();
+    }
 
-      this.config = {
+  ngOnInit(): void {
+    this.labourStatsService.getLabourStats().pipe(first()).subscribe((report:LabourStats[]) => {
+      this.labourStatsReport = report[0];
+
+      ["providers", "directContractors", "total"].forEach(group => this.labourStatsReport[group].map((stats:ProviderLabourStats) => {
+        stats["complianceScore"] = stats.complianceStats ? stats.complianceStats.Total / 100 : 0;
+        stats["workForce"] = stats.workerCount / this.labourStatsReport.total[0].workerCount;
+        ["labourCostTotal", "grossPayTotal", "payrollAdminTotal"].forEach(property => {
+          stats[property] = stats[property] / 100;
+        });
+      }))
+
+      this.setConfig({
         sortBy: "name",
         sortDirection: SortDirection.DESC,
         title: "Labour cost report",
@@ -67,38 +80,28 @@ export class LabourCostReportComponent extends BaseReport implements OnInit {
           groups: null,
           foot: null,
         },
-      };
-    }
+      });
 
-  ngOnInit(): void {
-    this.labourStatsService.getLabourStats().pipe(first()).subscribe((report:LabourStats[]) => {
-      this.labourStatsReport = report[0];
-
-      ["providers", "directContractors", "total"].forEach(group => this.labourStatsReport[group].map((stats:ProviderLabourStats) => {
-        stats["complianceScore"] = stats.complianceStats ? stats.complianceStats.Total / 100 : 0;
-        stats["workForce"] = stats.workerCount / this.labourStatsReport.total[0].workerCount;
-        ["labourCostTotal", "grossPayTotal", "payrollAdminTotal"].forEach(property => {
-          stats[property] = stats[property] / 100;
-        });
-      }))
-
-      this.config.rows.foot = this.labourStatsReport.total;
-      
-      this.sort();
+      this.sortRows();
     });
   }
 
-  sort(): void {
-    this.config.rows. groups = [
+  sortRows(): void {
+    const rows = {
+      groups:  [
         this.labourStatsReport.directContractors,
         this.labourStatsReport.providers
-    ];
-  
-    if (this.config.sortBy !== "name") {
-      this.config.rows.groups = [this.labourStatsReport.directContractors.concat(this.labourStatsReport.providers)]
+    ],
+      foot: this.labourStatsReport.total
+    };
+
+    if (this.getConfig().sortBy !== "name") {
+      rows.groups = [this.labourStatsReport.directContractors.concat(this.labourStatsReport.providers)]
     }
 
-    super.sort();
+    this.setRows(rows);
+
+    super.sortRows();
   }
 
 }
